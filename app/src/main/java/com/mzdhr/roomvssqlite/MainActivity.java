@@ -1,15 +1,27 @@
 package com.mzdhr.roomvssqlite;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+
+import com.mzdhr.roomvssqlite.Room.MainActivityViewModel;
+import com.mzdhr.roomvssqlite.Room.NoteEntity;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+
+    private static final String TAG = MainActivity.class.getSimpleName();
+    private MainActivityViewModel mViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +38,35 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+
+        // Preparing our note objects
+        NoteEntity noteEntity1 = new NoteEntity("This is first note", "Body for this note");
+        NoteEntity noteEntity2 = new NoteEntity("This is first note", "Body for this note");
+
+        // Prepare ViewModel
+        mViewModel = ViewModelProviders.of(this).get(MainActivityViewModel.class);
+
+        // Insert
+        mViewModel.insert(noteEntity1);
+        mViewModel.insert(noteEntity2);
+
+        // Update
+        mViewModel.update(new NoteEntity(1,"User", "Body"));
+
+        // Delete
+        mViewModel.delete(noteEntity2);
+
+        // List all notes
+        mViewModel.getAllNotes().observe(this, new Observer<List<NoteEntity>>() {
+            @Override
+            public void onChanged(@Nullable List<NoteEntity> noteEntities) {
+                for (int i = 0; i < noteEntities.size(); i++) {
+                    Log.d(TAG, "Title: " + noteEntities.get(i).getTitle() + " Body: " + noteEntities.get(i).getBody());
+                }
+            }
+        });
+
     }
 
     @Override
