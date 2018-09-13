@@ -46,7 +46,6 @@ public class MainActivityViewModel extends AndroidViewModel {
             @Override
             public void run() {
                 mNoteDao.deleteNote(noteEntity);
-
             }
         });
     }
