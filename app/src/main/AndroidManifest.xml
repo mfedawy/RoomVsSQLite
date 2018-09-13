@@ -19,6 +19,22 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity
+            android:name=".Main2Activity"
+            android:label="@string/title_activity_main2"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.mzdhr.roomvssqlite.MainActivity"/>
+        </activity>
+
+        <!-- SQLite Database Provider -->
+        <provider
+            android:name=".SQLite.DatabaseProvider"
+            android:authorities="com.mzdhr.roomvssqlite"
+            android:exported="false"/>
+
     </application>
 
 </manifest>
